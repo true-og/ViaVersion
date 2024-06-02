@@ -19,6 +19,7 @@ package com.viaversion.viaversion.util;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
 import com.viaversion.nbt.tag.CompoundTag;
 import com.viaversion.nbt.tag.StringTag;
 import com.viaversion.nbt.tag.Tag;
@@ -165,8 +166,14 @@ public final class ComponentUtil {
         return SerializerVersion.V1_12.toString(component);
     }
 
-    public static String jsonToLegacy(final String value) {
-        return TextComponentSerializer.V1_12.deserializeReader(value).asLegacyFormatString();
+    public static @Nullable String jsonToLegacy(final String value) {
+        try {
+            final ATextComponent component = TextComponentSerializer.V1_12.deserializeReader(value);
+            if (component == null) return null;
+            return component.asLegacyFormatString();
+        } catch (final JsonParseException e) {
+            return null;
+        }
     }
 
     public static String jsonToLegacy(final JsonElement value) {

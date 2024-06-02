@@ -260,7 +260,7 @@ public class ItemPacketRewriter1_14 extends ItemRewriter<ClientboundPackets1_13,
 
         if (item.tag() == null) return item;
 
-        // Display Name now uses JSON
+        // Lore now uses JSON
         CompoundTag display = item.tag().getCompoundTag("display");
         if (display != null) {
             ListTag<StringTag> lore = display.getListTag("Lore", StringTag.class);
