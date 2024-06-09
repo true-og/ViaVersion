@@ -44,13 +44,16 @@ public class ItemType1_13 extends Type<Item> {
             item.setIdentifier(id);
             item.setAmount(buffer.readByte());
             item.setTag(Types.NAMED_COMPOUND_TAG.read(buffer));
+            if (item.isEmpty()) {
+                return null;
+            }
             return item;
         }
     }
 
     @Override
     public void write(ByteBuf buffer, @Nullable Item object) {
-        if (object == null) {
+        if (object == null || object.isEmpty()) {
             buffer.writeShort(-1);
         } else {
             buffer.writeShort(object.identifier());

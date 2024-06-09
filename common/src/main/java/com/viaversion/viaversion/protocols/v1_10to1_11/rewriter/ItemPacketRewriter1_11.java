@@ -74,6 +74,10 @@ public class ItemPacketRewriter1_11 extends ItemRewriter<ClientboundPackets1_9_3
 
     @Override
     public Item handleItemToClient(UserConnection connection, Item item) {
+        if (item != null && item.isEmpty()) {
+            // Map empty items to null
+            return null;
+        }
         EntityMappings1_11.toClientItem(item);
         return item;
     }

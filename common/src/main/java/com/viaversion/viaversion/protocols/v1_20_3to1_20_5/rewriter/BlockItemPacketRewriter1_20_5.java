@@ -355,12 +355,7 @@ public final class BlockItemPacketRewriter1_20_5 extends ItemRewriter<Clientboun
     }
 
     @Override
-    public Item handleItemToClient(final UserConnection connection, @Nullable final Item item) {
-        if (item == null) {
-            // We no longer want null items, always unify them to empty
-            return StructuredItem.empty();
-        }
-
+    public Item handleItemToClient(final UserConnection connection, final Item item) {
         // Add the original as custom data, to be re-used for creative clients as well
         final CompoundTag tag = item.tag();
         if (tag != null) {
@@ -380,12 +375,7 @@ public final class BlockItemPacketRewriter1_20_5 extends ItemRewriter<Clientboun
     }
 
     @Override
-    public @Nullable Item handleItemToServer(UserConnection connection, final Item item) {
-        if (item.isEmpty()) {
-            // Empty to null for the old protocols
-            return null;
-        }
-
+    public Item handleItemToServer(UserConnection connection, final Item item) {
         super.handleItemToServer(connection, item);
         return toOldItem(connection, item, DATA_CONVERTER);
     }
