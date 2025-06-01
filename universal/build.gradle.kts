@@ -6,9 +6,6 @@ plugins {
 dependencies {
     api(projects.viaversionCommon)
     api(projects.viaversionBukkit)
-    api(projects.viaversionVelocity)
-    api(projects.viaversionSponge)
-    api(projects.viaversionFabric)
 }
 
 tasks {
@@ -56,10 +53,8 @@ if (!isRelease || isMainBranch) { // Only publish releases from the main branch
         changelog.set(changelogContent)
         uploadFile.set(tasks.shadowJar.flatMap { it.archiveFile })
         gameVersions.set(mcVersions)
-        loaders.add("fabric")
         loaders.add("paper")
         loaders.add("folia")
-        loaders.add("velocity")
         autoAddDependsOn.set(false)
         detectLoaders.set(false)
         dependencies {

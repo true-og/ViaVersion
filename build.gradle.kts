@@ -1,6 +1,7 @@
 plugins {
     base
-    id("via.build-logic")
+    eclipse
+	id("via.build-logic")
 }
 
 allprojects {
@@ -14,7 +15,6 @@ val main = setOf(
     projects.viaversionCommon,
     projects.viaversionApi,
     projects.viaversionBukkit,
-    projects.viaversionVelocity
 ).map { it.path }
 
 subprojects {
