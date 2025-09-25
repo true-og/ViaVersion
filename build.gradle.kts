@@ -1,5 +1,6 @@
 plugins {
     base
+    eclipse
     id("via.build-logic")
 }
 
