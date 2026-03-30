@@ -9,9 +9,9 @@
 #----------------------------------------------------------#
 #
 # Should ViaVersion check for updates?
-check-for-updates: true
+check-for-updates: false
 # Send the supported versions with the Status (Ping) response packet
-send-supported-versions: false
+send-supported-versions: true
 # Easier to configure alternative to 'block-protocols'. Uses readable version strings with possible '<' and '>' prefixes.
 # An example to block 1.16.4, everything below 1.16, as well as everything above 1.17.1 would be: ["<1.16", "1.16.4", ">1.17.1"]
 # You can use both this and the block-protocols option at the same time as well.
@@ -20,11 +20,14 @@ block-versions: []
 # List of all Minecraft protocol versions: https://minecraft.wiki/w/Protocol_version, or use a generator: https://via.krusic22.com
 block-protocols: []
 # Change the blocked disconnect message
-block-disconnect-msg: "You are using an unsupported Minecraft version!"
+block-disconnect-msg: |
+  §7[§aTrue§cOG§7] §cUnsupported client! §e:(
+    §4♥ §6Please re-log using 1.8-1.21.11 §4♥
 # If you use ProtocolLib, we can't reload without kicking the players.
 # (We don't suggest using reload either, use a plugin manager)
 # You can customize the message we kick people with if you use ProtocolLib here.
-reload-disconnect-msg: "Server reload, please rejoin!"
+reload-disconnect-msg: |
+  §7[§aTrue§cOG§7] §6Server is restarting... §4♥
 # Settings for logging behavior. When debugging issues, we may ask you to change some of these.
 # Most of these are disabled by default to prevent log spam from bad user input.
 logging:
@@ -33,7 +36,7 @@ logging:
   # Whether to log errors during entity data conversion.
   log-entity-data-errors: true
   # Whether to log errors during text component conversion.
-  log-text-component-conversion-errors: false
+  log-text-component-conversion-errors: true
   # Whether to warn for other issues when converting items, blocks, or other data between server and client.
   log-other-conversion-warnings: false
   # Maximum length of error messages in the console.
@@ -43,34 +46,13 @@ logging:
 config-version: 1
 init-config-version: 1
 # Whether to update config values that were left on their default to newly changed defaults. Recommended to keep enabled.
-migrate-default-config-changes: true
+migrate-default-config-changes: false
 # If enabled, ViaVersion will send the native player version to the server on connect via a plugin message.
 # See the wiki for more info: https://github.com/ViaVersion/ViaVersion/wiki/Server-and-Player-Details-Protocol
 send-player-details: true
 # If enabled, ViaVersion will send the native server version to a player on connect via a plugin message.
 # See the wiki above for more info.
 send-server-details: true
-#----------------------------------------------------------#
-#                    VELOCITY OPTIONS                      #
-#----------------------------------------------------------#
-#
-# Velocity allows you to have different server versions inside.
-# Instead of you entering all the versions of these servers, we can ping them.
-#
-# What interval would you like us to ping at? (in seconds)
-# Use -1 to disable.
-velocity-ping-interval: 60
-# If the above is enabled, should we save the info to the config (in the section below)
-velocity-ping-save: true
-# To get a server's protocol, ViaVersion will do the following:
-# Look for the server in the following section, then look for the last ping if velocity-ping is enabled
-# otherwise use default.
-#
-# The format for the following is:
-#  servername: protocolversion
-# You can find protocol ids on https://minecraft.wiki/w/Protocol_version
-# It will fall back to the default option if none found.
-velocity-servers: {}
 #
 #----------------------------------------------------------#
 #                  GLOBAL PACKET LIMITER                   #
@@ -85,7 +67,7 @@ packet-limiter:
   enabled: true
   # The maximum packets a client can send per second.
   max-per-second: 800
-  max-per-second-kick-message: "You are sending too many packets!"
+  max-per-second-kick-message: You are sending too many packets!
   #
   # We can also kick them if they repeatedly send too many packets over a longer period of time.
   # E.g. if a player sends over 200 packets per second for 4 out of 7 seconds, we kick them.
@@ -95,16 +77,16 @@ packet-limiter:
   sustained-period-seconds: 7
   # The number of seconds within the interval that the client can exceed the limit before being kicked.
   sustained-threshold: 4
-  sustained-kick-message: "You are sending too many packets, :("
+  sustained-kick-message: You are sending too many packets, :(
 # Limits the size of packets in kilobytes sent per second.
 packet-size-limiter:
-  enabled: false
+  enabled: true
   max-per-second: -1
-  max-per-second-kick-message: "You are sending too large packets!"
+  max-per-second-kick-message: You are secnding too many packets per second.
   sustained-max-per-second: -1
   sustained-period-seconds: 5
   sustained-threshold: 3
-  sustained-kick-message: "You are sending too large packets, :("
+  sustained-kick-message: You are sending packets which are too large!
 #
 #----------------------------------------------------------#
 #                 MULTIPLE VERSIONS OPTIONS                #
@@ -112,7 +94,7 @@ packet-size-limiter:
 #
 # Should we enable our hologram patch?
 # If they're in the wrong place, enable this
-hologram-patch: false
+hologram-patch: true
 # This is the offset, should work as default when enabled.
 hologram-y: -0.96
 # Whether to make sure ViaVersion's UserConnection object is already available in the PlayerJoinEvent.
@@ -128,11 +110,11 @@ team-colour-fix: true
 # 1.13 introduced new auto complete which can trigger "Kicked for spamming" for servers older than 1.13, the following option will disable it completely.
 disable-1_13-auto-complete: false
 # The following option will delay the tab complete request in x ticks if greater than 0, if other tab-complete is received, the previous is cancelled
-1_13-tab-complete-delay: 0
+1_13-tab-complete-delay: 2
 # For 1.13 clients the smallest (1 layer) snow doesn't have collisions, this will send these as 2 snowlayers for 1.13+ clients to prevent them bugging through them
-fix-low-snow-collision: false
+fix-low-snow-collision: true
 # Infested blocks are instantly breakable for 1.13+ clients, resulting in them being unable to break them on sub 1.13 servers. This remaps them to their normal stone variants
-fix-infested-block-breaking: true
+fix-infested-block-breaking: false
 # In 1.14 the client page limit has been upped to 100 (from 50). Some anti-exploit plugins ban when clients go higher than 50. This option cuts edited books to 50 pages.
 truncate-1_14-books: false
 # This prevents clients using 1.9-1.13 on 1.8 servers from receiving no knockback/having velocity bugs whilst sneaking under a block.
@@ -142,7 +124,7 @@ change-1_9-hitbox: false
 # Another thing to remember is that those players might be missed by projectiles and other hits directed at the very top of their head whilst sneaking.
 change-1_14-hitbox: false
 # Fixes 1.14+ clients on sub 1.14 servers having a light value of 0 for non-full blocks.
-fix-non-full-blocklight: true
+fix-non-full-blocklight: false
 # Fixes walk animation not shown when health is set to Float.NaN
 fix-1_14-health-nan: true
 # Should 1.15+ clients respawn instantly / without showing a death screen?
@@ -156,9 +138,9 @@ blockconnection-method: packet
 reduce-blockstorage-memory: false
 # When activated with serverside-blockconnections, flower parts with blocks above will be sent as stems
 # Useful for lobbyservers where users can't build and those stems are used decoratively
-flowerstem-when-block-above: false
+flowerstem-when-block-above: true
 # Vines that are not connected to blocks will be mapped to air, else 1.13+ would still be able to climb up on them.
-vine-climb-fix: false
+vine-climb-fix: true
 #
 # Ignores incoming plugin channel messages of 1.16+ clients with channel names longer than 32 characters.
 # CraftBukkit had this limit hardcoded until 1.16, so we have to assume any server/proxy might have this arbitrary check present.
@@ -178,9 +160,9 @@ armor-toggle-fix: true
 #
 # Get the world names which should be returned for each vanilla dimension
 map-1_16-world-names:
-  overworld: "minecraft:overworld"
-  nether: "minecraft:the_nether"
-  end: "minecraft:the_end"
+  overworld: minecraft:overworld
+  nether: minecraft:the_nether
+  end: minecraft:the_end
 #
 # If disabled, tamed cats will be displayed as ocelots to 1.14+ clients on 1.13 servers. Otherwise, ocelots (tamed and untamed) will be displayed as cats.
 translate-ocelot-to-cat: false
@@ -193,13 +175,13 @@ enforce-secure-chat: false
 handle-invalid-item-count: false
 #
 # Hides scoreboard numbers for 1.20.3+ clients on older server versions.
-hide-scoreboard-numbers: false
+hide-scoreboard-numbers: true
 #
 # Fixes 1.21+ clients on 1.20.5 servers placing water/lava buckets at the wrong location when moving fast, NOTE: This may cause issues with anti-cheat plugins.
-fix-1_21-placement-rotation: true
+fix-1_21-placement-rotation: false
 #
 # If enabled, cancel swing packets sent while having an inventory opened on 1.15.2 and below servers. This can cause false positives with anti-cheat plugins.
-cancel-swing-in-inventory: true
+cancel-swing-in-inventory: false
 #
 #----------------------------------------------------------#
 #             1.9+ CLIENTS ON 1.8 SERVERS OPTIONS          #
