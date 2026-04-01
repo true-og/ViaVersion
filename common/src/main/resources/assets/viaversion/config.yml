@@ -29,7 +29,7 @@ logging:
   log-blocked-joins: false
   log-entity-data-errors: true
   log-text-component-conversion-errors: true
-  log-other-conversion-warnings: true
+  log-other-conversion-warnings: false
   max-error-length: 1500
 config-version: 1
 init-config-version: 1
