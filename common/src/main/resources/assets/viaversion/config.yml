@@ -85,7 +85,7 @@ map-1_16-world-names:
 translate-ocelot-to-cat: false
 enforce-secure-chat: false
 handle-invalid-item-count: false
-hide-scoreboard-numbers: true
+hide-scoreboard-numbers: false
 fix-1_21-placement-rotation: false
 cancel-swing-in-inventory: true
 prevent-collision: true
