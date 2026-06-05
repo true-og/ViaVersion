@@ -142,6 +142,10 @@ public final class EntityPacketRewriter1_20 extends EntityRewriter<ClientboundPa
         registerEntityDataTypeHandler(Types1_20.ENTITY_DATA_TYPES.itemType, Types1_20.ENTITY_DATA_TYPES.blockStateType, Types1_20.ENTITY_DATA_TYPES.optionalBlockStateType, Types1_20.ENTITY_DATA_TYPES.particleType, null);
         registerBlockStateHandler(EntityTypes1_19_4.ABSTRACT_MINECART, 11);
 
+        // Purpur's Rainglow support adds a non-vanilla Glow Squid colour field here.
+        // Vanilla clients do not define index 18 for Glow Squid and disconnect when it is received.
+        filter().type(EntityTypes1_19_4.GLOW_SQUID).cancel(18);
+
         // Rotate item display by 180 degrees around the Y axis
         filter().type(EntityTypes1_19_4.ITEM_DISPLAY).handler((event, data) -> {
             if (event.trackedEntity().hasSentEntityData() || event.hasExtraData()) {
