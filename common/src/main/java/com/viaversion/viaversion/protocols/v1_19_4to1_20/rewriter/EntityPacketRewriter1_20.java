@@ -142,9 +142,13 @@ public final class EntityPacketRewriter1_20 extends EntityRewriter<ClientboundPa
         registerEntityDataTypeHandler(Types1_20.ENTITY_DATA_TYPES.itemType, Types1_20.ENTITY_DATA_TYPES.blockStateType, Types1_20.ENTITY_DATA_TYPES.optionalBlockStateType, Types1_20.ENTITY_DATA_TYPES.particleType, null);
         registerBlockStateHandler(EntityTypes1_19_4.ABSTRACT_MINECART, 11);
 
-        // Purpur's Rainglow support adds a non-vanilla Glow Squid colour field here.
-        // Vanilla clients do not define index 18 for Glow Squid and disconnect when it is received.
-        filter().type(EntityTypes1_19_4.GLOW_SQUID).cancel(18);
+        // Purpur's Rainglow patch adds a non-vanilla SQUID_COLOR (String) accessor on GlowSquid,
+        // declared right after DATA_DARK_TICKS_REMAINING, so the server emits it at source index 17.
+        // AGEABLE_WATER_CREATURE.addIndex(16) in v1_21To1_21_2 later shifts it to index 18, where
+        // 1.21.11+ clients only allocate 18 slots (max valid index 17) and crash with
+        // ArrayIndexOutOfBoundsException: Index 18 out of bounds for length 18. Drop at source.
+        // Vanilla 1.19.4 GlowSquid has no slot 17, so this is safe for non-Purpur servers.
+        filter().type(EntityTypes1_19_4.GLOW_SQUID).cancel(17);
 
         // Rotate item display by 180 degrees around the Y axis
         filter().type(EntityTypes1_19_4.ITEM_DISPLAY).handler((event, data) -> {
